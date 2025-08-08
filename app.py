@@ -44,9 +44,19 @@ def index():
     income_manager = IncomeManager()
     expense_manager = ExpenseManager()
 
-    # Default date range (current month)
-    start_date = request.form.get('start_date', date.today().replace(day=1).strftime('%Y-%m-%d'))
-    end_date = request.form.get('end_date', date.today().strftime('%Y-%m-%d'))
+    # Get dates from form, session, or use defaults
+    start_date = request.form.get('start_date')
+    end_date = request.form.get('end_date')
+
+    # If no dates in form, check session, then use defaults
+    if not start_date:
+        start_date = session.get('filter_start_date', date.today().replace(day=1).strftime('%Y-%m-%d'))
+    if not end_date:
+        end_date = session.get('filter_end_date', date.today().strftime('%Y-%m-%d'))
+
+    # Store current dates in session
+    session['filter_start_date'] = start_date
+    session['filter_end_date'] = end_date
 
     # Get filtered data
     incomes = income_manager.get_incomes_between_dates(start_date, end_date)

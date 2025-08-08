@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="392fed00-3f65-44e5-9004-e729bc449f9f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/BudgetTrackerWebApplication.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qwenDemo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/ExpenseManager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/IncomeManager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/chatbot.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/chatbot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/piecharts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/css/table_sorting.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +26,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Chandrika-Saha"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Chandrika-Saha/Budget-Tracker-Web-Application.git",
+    "accountId": "a371d796-4146-49f0-a645-89654687ddb5"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -51,7 +53,7 @@
     "Python.app.executor": "Run",
     "Python.qwenDemo.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/Users/chandrikasaha/PycharmProjects/BudgetTrackerWebApplication"
   }
 }]]></component>

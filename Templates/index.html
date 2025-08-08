@@ -10,6 +10,7 @@
 
     <!-- Chatbot CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chatbot.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table_sorting.css') }}">
     <style>
 <style>
     /* Transaction row colors */
@@ -208,35 +209,51 @@
         </div>
 
         <!-- Row 5: Transaction List -->
+        <!-- Row 5: Transaction List -->
         <div class="row mb-4">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <h5>All Transactions</h5>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped" id="transactionTable">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Type</th>
-                                        <th>Category</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Actions</th> <!-- New Actions column -->
+                                        <th class="sortable" data-column="date" data-type="date">
+                                            Date
+                                            <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="sortable" data-column="type" data-type="string">
+                                            Type
+                                            <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="sortable" data-column="category" data-type="string">
+                                            Category
+                                            <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="sortable" data-column="description" data-type="string">
+                                            Description
+                                            <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th class="sortable" data-column="amount" data-type="number">
+                                            Amount
+                                            <i class="fas fa-sort sort-icon"></i>
+                                        </th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="transactionTableBody">
                                     {% for transaction in all_transactions %}
                                     <tr class="{% if transaction.type == 'Income' %}income-row{% else %}expense-row{% endif %}">
-                                        <td>{{ transaction.date }}</td>
-                                        <td>
+                                        <td data-sort="{{ transaction.date }}">{{ transaction.date }}</td>
+                                        <td data-sort="{{ transaction.type }}">
                                             <span class="badge {% if transaction.type == 'Income' %}bg-success{% else %}bg-danger{% endif %}">
                                                 {{ transaction.type }}
                                             </span>
                                         </td>
-                                        <td>{{ transaction.category }}</td>
-                                        <td>{{ transaction.description }}</td>
-                                        <td>${{ "%.2f"|format(transaction.amount) }}</td>
+                                        <td data-sort="{{ transaction.category }}">{{ transaction.category }}</td>
+                                        <td data-sort="{{ transaction.description }}">{{ transaction.description }}</td>
+                                        <td data-sort="{{ transaction.amount }}">${{ "%.2f"|format(transaction.amount) }}</td>
                                         <td>
                                             <!-- Edit Button -->
                                             <button class="btn btn-sm btn-outline-primary me-1"
@@ -248,7 +265,7 @@
                                                     onclick="deleteTransaction({{ transaction.id }}, '{{ transaction.type }}')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                    </td>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -258,7 +275,13 @@
                 </div>
             </div>
         </div>
+
+
+<!--        # DO NOT REMOVE THIS CONTAINER DIV-->
     </div>
+
+
+
 
     <!-- Chatbot Widget -->
 <div id="chatbot-container" class="chatbot-container">
@@ -567,6 +590,84 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = document.getElementById('transactionTable');
+            const headers = table.querySelectorAll('th.sortable');
+            let currentSort = { column: null, direction: 'asc' };
+
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    const column = this.dataset.column;
+                    const type = this.dataset.type;
+
+                    // Remove previous sort classes
+                    headers.forEach(h => h.classList.remove('asc', 'desc'));
+
+                    // Determine sort direction
+                    if (currentSort.column === column) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.direction = 'asc';
+                    }
+                    currentSort.column = column;
+
+                    // Add sort class to current header
+                    this.classList.add(currentSort.direction);
+
+                    // Sort the table
+                    sortTable(column, type, currentSort.direction);
+                });
+            });
+
+            function sortTable(column, type, direction) {
+                const tbody = document.getElementById('transactionTableBody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                rows.sort((a, b) => {
+                    let aVal = a.querySelector(`td[data-sort]`).dataset.sort;
+                    let bVal = b.querySelector(`td[data-sort]`).dataset.sort;
+
+                    // Get the correct cell for the column
+                    const columnIndex = getColumnIndex(column);
+                    aVal = a.children[columnIndex].dataset.sort;
+                    bVal = b.children[columnIndex].dataset.sort;
+
+                    let comparison = 0;
+
+                    switch(type) {
+                        case 'number':
+                            comparison = parseFloat(aVal) - parseFloat(bVal);
+                            break;
+                        case 'date':
+                            comparison = new Date(aVal) - new Date(bVal);
+                            break;
+                        case 'string':
+                        default:
+                            comparison = aVal.toLowerCase().localeCompare(bVal.toLowerCase());
+                            break;
+                    }
+
+                    return direction === 'asc' ? comparison : -comparison;
+                });
+
+                // Clear tbody and append sorted rows
+                tbody.innerHTML = '';
+                rows.forEach(row => tbody.appendChild(row));
+            }
+
+            function getColumnIndex(column) {
+                const columnMap = {
+                    'date': 0,
+                    'type': 1,
+                    'category': 2,
+                    'description': 3,
+                    'amount': 4
+                };
+                return columnMap[column];
+            }
+        });
+    </script>
 
 </body>
 </html>
